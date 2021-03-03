@@ -1,10 +1,10 @@
 import pandas as pd
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+import numpy  as np
+from   sklearn.metrics.pairwise import cosine_similarity
 
 class GenresBasedFilter(object):
     def __init__(self, dataframe, k=5):
-        self.artist_to_idx = {row["artistId"]: idx for idx, row in dataframe.iterrows()}
+        self.artist_to_idx = {row["artistID"]: idx for idx, row in dataframe.iterrows()}
         self.idx_to_artist = {idx: artist for artist, idx in self.artist_to_idx.items()}
         self.k = k
 
@@ -12,7 +12,7 @@ class GenresBasedFilter(object):
         for g in tagID:
             dataframe[g] = dataframe.tagID.transform(lambda x: int(g in x))
 
-        self.artist_genres = dataframe.drop(columns=['artistId', 'name', 'tagID'])
+        self.artist_genres = dataframe.drop(columns=['artistID', 'name', 'tagID'])
 
     def fit(self, ratings):
         self.dataframe_cosine_sim_ = cosine_similarity(self.artist_genres, self.artist_genres)
